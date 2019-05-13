@@ -32,6 +32,11 @@ do_fix_target_name() {
 	sed -i s/arm-linux-gnueabihf/${TARGET_SYS}/g ${S}/src/coreclr/cross/toolchain.cmake
 	sed -i s/arm-linux-gnueabihf/${TARGET_SYS}/g ${S}/src/corefx/cross/arm/toolchain.cmake
 	sed -i s/arm-linux-gnueabihf/${TARGET_SYS}/g ${S}/src/core-setup/cross/arm/toolchain.cmake
+
+  sed -i s/arm-linux-gnueabi/${TARGET_SYS}/g ${S}/cross/arm/toolchain.cmake
+	sed -i s/arm-linux-gnueabi/${TARGET_SYS}/g ${S}/src/coreclr/cross/toolchain.cmake
+	sed -i s/arm-linux-gnueabi/${TARGET_SYS}/g ${S}/src/corefx/cross/arm/toolchain.cmake
+	sed -i s/arm-linux-gnueabi/${TARGET_SYS}/g ${S}/src/core-setup/cross/arm/toolchain.cmake
 }
 
 addtask fix_target_name after do_patch before do_configure
@@ -49,7 +54,7 @@ do_compile() {
 	export PARALLEL_MAKEINST="${PARALLEL_MAKEINST}"
 	export VersionUserName=meta-aspnet
 	export SkipEnsurePackagesCreated=true
-	./build.sh /p:Platform=arm /p:TargetRid=linux-arm /p:Configuration=${BUILD_CONFIGURATION} /p:SkipGenerateRootFs=true
+	./build.sh /p:Platform=armel /p:TargetRid=linux-arm /p:Configuration=${BUILD_CONFIGURATION} /p:SkipGenerateRootFs=true
 }
 
 do_install() {

@@ -58,7 +58,7 @@ index 3504f94a3d..212f29f635 100644
 -  add_compile_param(CROSS_LINK_FLAGS "-B${CROSS_ROOTFS}/usr/lib/gcc/${TOOLCHAIN}")
 -  add_compile_param(CROSS_LINK_FLAGS "-L${CROSS_ROOTFS}/lib/${TOOLCHAIN}")
 +  #add_compile_param(CROSS_LINK_FLAGS "${CROSS_LINK_FLAGS} -fuse-ld=$ENV{GCC_TOOLCHAIN}/${TOOLCHAIN}-ld")
-+  add_compile_param(CROSS_LINK_FLAGS "${CROSS_LINK_FLAGS} -mthumb -mfpu=vfpv3 -mfloat-abi=hard -march=armv7l")
++  add_compile_param(CROSS_LINK_FLAGS "${CROSS_LINK_FLAGS} -mthumb -mfpu=vfpv3 -mfloat-abi=softfp -march=armv7l")
  else() # x86 case
    add_compile_param(CROSS_LINK_FLAGS "-B${CROSS_ROOTFS}/usr/lib/gcc/i686-linux-gnu")
    add_compile_param(CROSS_LINK_FLAGS "-L${CROSS_ROOTFS}/lib/i386-linux-gnu")
@@ -66,7 +66,7 @@ index 3504f94a3d..212f29f635 100644
  if(TARGET_ARCH_NAME MATCHES "^(arm|armel)$")
    add_compile_options(-mthumb)
    add_compile_options(-mfpu=vfpv3)
-+  add_compile_options(-mfloat-abi=hard)
++  add_compile_options(-mfloat-abi=softfp)
 +  add_compile_options(-march=armv7l)
    if(TARGET_ARCH_NAME STREQUAL "armel")
      add_compile_options(-target armv7-linux-gnueabi)
