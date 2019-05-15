@@ -5,15 +5,7 @@ SECTION = "devel"
 
 SRC_URI = "\
   gitsm://github.com/dotnet/source-build;branch=release/2.2 \
-  file://0001-source-build-CMake-adaptions.patch \
-  file://0002-source-build-Disable-rootfs-generation.patch \
-  file://0001-coreclr-CMake-adaptions.patch \
-  file://0002-coreclr-Compilation-fix.patch \
-  file://0003-coreclr-Use-the-existing-environment-variable-for-parallel-m.patch \
-  file://0001-corefx-CMake-adaptions.patch \
-  file://0002-corefx-ASN1_STRING_print_ex-has-an-unsigned-long-flags-argu.patch \
-  file://0001-release-2.1-Fix-build-errors-in-some-build-configura.patch \
-  file://0001-core-setup-CMake-adaptions.patch \
+  file://0001-fulldiff.patch \
 "
 SRCREV="75c9106dcadb39015675f163fbca814da486665d"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=9fc642ff452b28d62ab19b7eea50dfb9"
