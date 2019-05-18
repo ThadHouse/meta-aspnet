@@ -3,9 +3,9 @@ index 4301c6d03b..903a2bc891 100644
 --- a/src/corefx/cross/armel/toolchain.cmake
 +++ b/src/corefx/cross/armel/toolchain.cmake
 @@ -6,13 +6,16 @@ set(CMAKE_SYSTEM_PROCESSOR armv7l)
-
+ 
  set(TOOLCHAIN "arm-linux-gnueabi")
-
+ 
 -add_compile_options(-target armv7-linux-gnueabi)
 +#add_compile_options(-target armv7-linux-gnueabi)
 +add_compile_options(-target ${TOOLCHAIN})
@@ -14,11 +14,11 @@ index 4301c6d03b..903a2bc891 100644
  add_compile_options(-mfloat-abi=softfp)
 +add_compile_options(-march=armv7l)
  add_compile_options(--sysroot=${CROSS_ROOTFS})
-
+ 
  set(CROSS_LINK_FLAGS "${CROSS_LINK_FLAGS} -target ${TOOLCHAIN}")
 +set(CROSS_LINK_FLAGS "${CROSS_LINK_FLAGS} -mthumb -mfpu=vfpv3 -mfloat-abi=softfp -march=armv7l")
  set(CROSS_LINK_FLAGS "${CROSS_LINK_FLAGS} --sysroot=${CROSS_ROOTFS}")
-
+ 
  if("$ENV{__DistroRid}" MATCHES "tizen.*")
 diff --git a/src/corefx/src/Native/Unix/CMakeLists.txt b/src/corefx/src/Native/Unix/CMakeLists.txt
 index 7d804a1e54..4ef2449583 100644
@@ -41,33 +41,33 @@ index 7d804a1e54..4ef2449583 100644
      if ((${__ASAN_POS} GREATER -1) OR (${__UBSAN_POS} GREATER -1))
        set(CLR_SANITIZE_CXX_FLAGS "${CLR_SANITIZE_CXX_FLAGS} -fsanitize=")
        set(CLR_SANITIZE_LINK_FLAGS "${CLR_SANITIZE_LINK_FLAGS} -fsanitize=")
--      if (${__ASAN_POS} GREATER -1)
+-      if (${__ASAN_POS} GREATER -1) 
 +      if (${__ASAN_POS} GREATER -1)
          set(CLR_SANITIZE_CXX_FLAGS "${CLR_SANITIZE_CXX_FLAGS}address,")
          set(CLR_SANITIZE_LINK_FLAGS "${CLR_SANITIZE_LINK_FLAGS}address,")
          message("Address Sanitizer (asan) enabled")
 @@ -109,11 +109,11 @@ endif ()
-
+ 
  if (APPLE)
      add_definitions(-D__APPLE_USE_RFC_3542)
--
--   # We cannot enable "stack-protector-strong" on OS X due to a bug in clang compiler (current version 7.0.2)
--   add_compile_options(-fstack-protector)
--else ()
--   add_compile_options(-fstack-protector-strong)
+-   
+-   # We cannot enable "stack-protector-strong" on OS X due to a bug in clang compiler (current version 7.0.2)  
+-   add_compile_options(-fstack-protector)  
+-else ()  
+-   add_compile_options(-fstack-protector-strong)  
 +
 +   # We cannot enable "stack-protector-strong" on OS X due to a bug in clang compiler (current version 7.0.2)
 +   add_compile_options(-fstack-protector)
 +else ()
 +   add_compile_options(-fstack-protector-strong)
  endif ()
-
+ 
  if (CMAKE_SYSTEM_NAME STREQUAL Linux)
 @@ -209,7 +209,7 @@ function(strip_symbols targetName outputFilename)
                  add_custom_command(
                      TARGET ${targetName}
                      POST_BUILD
--                    VERBATIM
+-                    VERBATIM 
 +                    VERBATIM
                      COMMAND ${DSYMUTIL} --flat --minimize ${strip_source_file}
                      COMMAND ${STRIP} -u -r ${strip_source_file}
@@ -76,7 +76,7 @@ index 7d804a1e54..4ef2449583 100644
                  add_custom_command(
                      TARGET ${targetName}
                      POST_BUILD
--                    VERBATIM
+-                    VERBATIM 
 +                    VERBATIM
                      COMMAND ${OBJCOPY} --only-keep-debug ${strip_source_file} ${strip_destination_file}
                      COMMAND ${OBJCOPY} --strip-unneeded ${strip_source_file}
@@ -88,10 +88,10 @@ index 98f9537419..7c94edea87 100644
 @@ -23,7 +23,7 @@ set(NATIVEHTTP_SOURCES
      pal_versioninfo.cpp
  )
-
+ 
 -include_directories(SYSTEM ${CURL_INCLUDE_DIR})
 +#include_directories(SYSTEM ${CURL_INCLUDE_DIR})
-
+ 
  add_library(System.Net.Http.Native
      SHARED
 diff --git a/src/corefx/src/Native/Unix/System.Security.Cryptography.Native/CMakeLists.txt b/src/corefx/src/Native/Unix/System.Security.Cryptography.Native/CMakeLists.txt
@@ -99,28 +99,28 @@ index 9fef63fda8..3dd0f90e46 100644
 --- a/src/corefx/src/Native/Unix/System.Security.Cryptography.Native/CMakeLists.txt
 +++ b/src/corefx/src/Native/Unix/System.Security.Cryptography.Native/CMakeLists.txt
 @@ -5,6 +5,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
+ 
  # These are happening inside of OpenSSL-defined macros out of our control
  add_compile_options(-Wno-cast-align)
 +add_compile_options(-Wno-used-but-marked-unused)
-
+ 
  add_definitions(-DPIC=1 -DOPENSSL_API_COMPAT=0x10100000L)
-
+ 
 @@ -13,7 +14,7 @@ if(CMAKE_STATIC_LIB_LINK)
  endif(CMAKE_STATIC_LIB_LINK)
-
+ 
  find_package(OpenSSL REQUIRED)
 -include_directories(SYSTEM ${OPENSSL_INCLUDE_DIR})
 +#include_directories(SYSTEM ${OPENSSL_INCLUDE_DIR})
-
+ 
  set(NATIVECRYPTO_SOURCES
      apibridge.cpp
 @@ -78,8 +79,8 @@ set_target_properties(System.Security.Cryptography.Native.OpenSsl-Static PROPERT
  if (FEATURE_DISTRO_AGNOSTIC_SSL)
      add_custom_command(TARGET System.Security.Cryptography.Native.OpenSsl POST_BUILD
          COMMENT "Verifying System.Security.Cryptography.Native.OpenSsl.so dependencies"
--        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../verify-so.sh
--            $<TARGET_FILE:System.Security.Cryptography.Native.OpenSsl>
+-        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../verify-so.sh 
+-            $<TARGET_FILE:System.Security.Cryptography.Native.OpenSsl> 
 +        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../verify-so.sh
 +            $<TARGET_FILE:System.Security.Cryptography.Native.OpenSsl>
              "Verification failed. System.Security.Cryptography.Native.OpenSsl.so has undefined dependencies. These are likely OpenSSL APIs that need to be added to opensslshim.h"
@@ -130,7 +130,7 @@ index 9fef63fda8..3dd0f90e46 100644
        ${OPENSSL_CRYPTO_LIBRARY}
        ${OPENSSL_SSL_LIBRARY}
      )
--
+-  
 +
      # On OS X every library emits the manner in which it should be referenced.
      # All of our libraries are referenced via @rpath, which is similar to how Linux and Windows
@@ -140,7 +140,7 @@ index 328b5e5935..0554d509bc 100644
 --- a/src/corefx/src/Native/Unix/System.Security.Cryptography.Native/pal_asn1_print.cpp
 +++ b/src/corefx/src/Native/Unix/System.Security.Cryptography.Native/pal_asn1_print.cpp
 @@ -31,7 +31,7 @@ static_assert(PAL_ASN1_STRFLGS_UTF8_CONVERT == ASN1_STRFLGS_UTF8_CONVERT, "");
-
+ 
  extern "C" ASN1_STRING* CryptoNative_DecodeAsn1TypeBytes(const uint8_t* buf, int32_t len, Asn1StringTypeFlags type)
  {
 -#if NEED_OPENSSL_1_0
@@ -166,7 +166,7 @@ index 202a848904..ab2a64d597 100755
 --- a/src/corefx/src/Native/build-native.sh
 +++ b/src/corefx/src/Native/build-native.sh
 @@ -53,6 +53,9 @@ initHostDistroRid()
-
+ 
  initTargetDistroRid()
  {
 +    export __DistroRid=linux-arm
