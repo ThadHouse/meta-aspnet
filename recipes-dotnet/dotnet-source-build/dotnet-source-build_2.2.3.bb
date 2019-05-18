@@ -5,7 +5,9 @@ SECTION = "devel"
 
 SRC_URI = "\
   gitsm://github.com/dotnet/source-build;branch=release/2.2 \
-  file://0001-fulldiff.patch \
+  file://0001-core-setup.patch \
+  file://0002-coreclr.patch \
+  file://0003-corefx.patch \
 "
 SRCREV="75c9106dcadb39015675f163fbca814da486665d"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=9fc642ff452b28d62ab19b7eea50dfb9"
