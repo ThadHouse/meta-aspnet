@@ -10,8 +10,8 @@ index 8efb6f32..65cb1a57 100644
 +add_compile_options(-target ${TOOLCHAIN})
  add_compile_options(-mthumb)
  add_compile_options(-mfpu=vfpv3)
-++add_compile_options(-mfloat-abi=softfp)
-++add_compile_options(-march=armv7l)
++add_compile_options(-mfloat-abi=softfp)
++add_compile_options(-march=armv7l)
  add_compile_options(--sysroot=${CROSS_ROOTFS})
 
  set(CROSS_LINK_FLAGS "${CROSS_LINK_FLAGS} -target ${TOOLCHAIN}")
