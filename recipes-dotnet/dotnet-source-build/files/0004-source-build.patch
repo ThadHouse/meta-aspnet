@@ -11,3 +11,16 @@ index 86e2306..e26d844 100644
  add_compile_options(-mthumb)
  add_compile_options(-mfpu=vfpv3)
  add_compile_options(-mfloat-abi=softfp)
+diff --git a/dir.props b/dir.props
+index db5ffe1..ee64642 100644
+--- a/dir.props
++++ b/dir.props
+@@ -104,7 +104,7 @@
+ 
+   <PropertyGroup>
+      <ArmEnvironmentVariables Condition="'$(ArmEnvironmentVariables)' == ''">ROOTFS_DIR=$(BaseIntermediatePath)crossrootfs/arm</ArmEnvironmentVariables>
+-     <ArmEnvironmentVariables Condition="'$(Platform)' == 'armel'">ROOTFS_DIR=$(BaseIntermediatePath)crossrootfs/armel</ArmEnvironmentVariables>
++     <!--<ArmEnvironmentVariables Condition="'$(Platform)' == 'armel'">ROOTFS_DIR=$(BaseIntermediatePath)crossrootfs/armel</ArmEnvironmentVariables>-->
+    </PropertyGroup>
+ 
+   <Import Project="$(TargetInfoProps)" Condition="$(GeneratingStaticPropertiesFile) != 'true' AND Exists('$(TargetInfoProps)')" />
