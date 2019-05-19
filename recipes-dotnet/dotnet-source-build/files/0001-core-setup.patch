@@ -31,12 +31,22 @@ index 95ef76dc..5a1616c1 100755
 +++ b/src/core-setup/src/corehost/build.sh
 @@ -180,8 +180,8 @@ if [ "$__CrossBuild" == 1 ]; then
  fi
-
+ 
  # __rid_plat is the base RID that corehost is shipped for, effectively, the name of the folder in "runtimes/{__rid_plat}/native/" inside the nupkgs.
 -__rid_plat=
 -init_rid_plat
 +__rid_plat=linux
 +#init_rid_plat
-
+ 
  if [ -z $__rid_plat ]; then
      echo "Unknown base rid (eg.: osx.10.12, ubuntu.14.04) being targeted"
+@@ -231,6 +231,9 @@ if [ $__CrossBuild == 1 ]; then
+     if command -v "clang-3.9" > /dev/null 2>&1; then
+         export CC="$(command -v clang-3.9)"
+         export CXX="$(command -v clang++-3.9)"
++    elif command -v clang > /dev/null 2>&1; then
++        export CC="$(command -v clang)"
++        export CXX="$(command -v clang++)"
+     else
+         echo "Unable to find Clang 3.9 Compiler"
+         echo "Install clang-3.9 for cross compilation"
