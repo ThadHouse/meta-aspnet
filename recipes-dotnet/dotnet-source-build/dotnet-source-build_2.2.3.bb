@@ -8,6 +8,8 @@ SRC_URI = "\
   file://0001-core-setup.patch \
   file://0002-coreclr.patch \
   file://0003-corefx.patch \
+	file://0002-source-build-Disable-rootfs-generation.patch \
+	file://0004-source-build.patch \
 "
 SRCREV="75c9106dcadb39015675f163fbca814da486665d"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=9fc642ff452b28d62ab19b7eea50dfb9"
