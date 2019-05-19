@@ -169,7 +169,7 @@ index 202a848904..ab2a64d597 100755
  
  initTargetDistroRid()
  {
-+    export __DistroRid=linux-arm
++    export __DistroRid=linux-armel
 +    return
 +
      if [ $__CrossBuild == 1 ]; then
