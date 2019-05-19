@@ -57,7 +57,7 @@ do_install() {
     install -d ${D}${datadir}/dotnet
     install -d ${D}${bindir}
 
-    cp -dr ${S}/src/core-setup/Bin/obj/*-arm.${BUILD_CONFIGURATION}/combined-framework-host/* ${D}${datadir}/dotnet/
+    cp -dr ${S}/src/core-setup/Bin/obj/*-armel.${BUILD_CONFIGURATION}/combined-framework-host/* ${D}${datadir}/dotnet/
     ln -sf ../share/dotnet/dotnet ${D}${bindir}/dotnet
     # https://github.com/dotnet/coreclr/issues/19025
     echo "" > ${D}${datadir}/dotnet/shared/Microsoft.NETCore.App/${PV}/libcoreclrtraceptprovider.so
