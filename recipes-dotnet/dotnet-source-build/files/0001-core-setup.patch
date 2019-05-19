@@ -2,18 +2,22 @@ diff --git a/src/core-setup/cross/armel/toolchain.cmake b/src/core-setup/cross/a
 index 8efb6f32..65cb1a57 100644
 --- a/src/core-setup/cross/armel/toolchain.cmake
 +++ b/src/core-setup/cross/armel/toolchain.cmake
-@@ -8,9 +8,11 @@ set(CMAKE_SYSTEM_PROCESSOR armv7l)
- set(TOOLCHAIN "arm-linux-gnueabi")
+@@ -5,12 +5,14 @@ set(CMAKE_SYSTEM_VERSION 1)
+ set(CMAKE_SYSTEM_PROCESSOR armv7l)
+ 
+ ## Specify the toolchain
+-set(TOOLCHAIN "arm-linux-gnueabi")
++set(TOOLCHAIN "arm-nilrt-linux-gnueabi")
  set(TOOLCHAIN_PREFIX ${TOOLCHAIN}-)
-
+ 
 -add_compile_options(-target armv7-linux-gnueabi)
 +add_compile_options(-target ${TOOLCHAIN})
  add_compile_options(-mthumb)
  add_compile_options(-mfpu=vfpv3)
-+add_compile_options(-mfloat-abi=softfp)
-+add_compile_options(-march=armv7l)
+++add_compile_options(-mfloat-abi=softfp)
+++add_compile_options(-march=armv7l)
  add_compile_options(--sysroot=${CROSS_ROOTFS})
-
+ 
  set(CROSS_LINK_FLAGS "${CROSS_LINK_FLAGS} -target ${TOOLCHAIN}")
 @@ -25,8 +27,7 @@ if("$ENV{__CrossToolChainTargetRID}" MATCHES "tizen.*")
      set(CROSS_LINK_FLAGS "${CROSS_LINK_FLAGS} -B${CROSS_ROOTFS}/usr/lib/gcc/${TIZEN_TOOLCHAIN}")
@@ -23,7 +27,7 @@ index 8efb6f32..65cb1a57 100644
 -    set(CROSS_LINK_FLAGS "${CROSS_LINK_FLAGS} -L${CROSS_ROOTFS}/usr/lib/gcc/${TOOLCHAIN}")
 +    set(CROSS_LINK_FLAGS "${CROSS_LINK_FLAGS} -mthumb -mfpu=vfpv3 -mfloat-abi=softfp -march=armv7l")
  endif()
-
+ 
  set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS}    ${CROSS_LINK_FLAGS}" CACHE STRING "" FORCE)
 diff --git a/src/core-setup/src/corehost/build.sh b/src/core-setup/src/corehost/build.sh
 index 95ef76dc..5a1616c1 100755
