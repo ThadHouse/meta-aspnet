@@ -4,7 +4,7 @@ index 4301c6d03b..903a2bc891 100644
 +++ b/src/corefx/cross/armel/toolchain.cmake
 @@ -6,13 +6,16 @@ set(CMAKE_SYSTEM_PROCESSOR armv7l)
  
- set(TOOLCHAIN "arm-linux-gnueabi")
+ set(TOOLCHAIN "arm-nilrt-linux-gnueabi")
  
 -add_compile_options(-target armv7-linux-gnueabi)
 +#add_compile_options(-target armv7-linux-gnueabi)
