@@ -6,7 +6,7 @@ index 7b433054f6..10e5eaac75 100755
  
  initTargetDistroRid()
  {
-+    export __DistroDir=linux-arm
++    export __DistroDir=linux-armel
 +    return
 +
      if [ $__CrossBuild == 1 ]; then
