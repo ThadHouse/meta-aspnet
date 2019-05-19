@@ -24,3 +24,16 @@ index db5ffe1..ee64642 100644
     </PropertyGroup>
  
    <Import Project="$(TargetInfoProps)" Condition="$(GeneratingStaticPropertiesFile) != 'true' AND Exists('$(TargetInfoProps)')" />
+diff --git a/repos/coreclr.proj b/repos/coreclr.proj
+index 3d76a79..e8b1726 100644
+--- a/repos/coreclr.proj
++++ b/repos/coreclr.proj
+@@ -6,7 +6,7 @@
+     <BuildArguments Condition="'$(SkipDisablePgo)' != 'true'">$(BuildArguments) -nopgooptimize</BuildArguments>
+     <BuildArguments Condition="'$(OS)' != 'Windows_NT'">$(BuildArguments) msbuildonunsupportedplatform</BuildArguments>
+     <BuildArguments Condition="'$(UseSystemLibraries)' == 'true' AND '$(OS)' != 'Windows_NT'">$(BuildArguments) cmakeargs -DCLR_CMAKE_USE_SYSTEM_LIBUNWIND=TRUE</BuildArguments>
+-    <BuildArguments Condition="$(Platform.Contains('arm'))">$(BuildArguments) skipnuget cross -skiprestore cmakeargs -DFEATURE_GDBJIT=TRUE</BuildArguments>
++    <BuildArguments Condition="$(Platform.Contains('arm'))">$(BuildArguments) cross -skiprestore cmakeargs -DFEATURE_GDBJIT=TRUE</BuildArguments>
+     <!-- Portable builds only apply to Linux - Mac and Windows are both always portable.
+          Additionally, Linux builds are portable by default and only have a switch to turn it off -->
+     <BuildArguments Condition="'$(TargetOS)' == 'Linux' and '$(PortableBuild)' == 'false'">$(BuildArguments) -PortableBuild=false</BuildArguments>
