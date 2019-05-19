@@ -80,6 +80,13 @@ diff --git a/src/coreclr/cross/toolchain.cmake b/src/coreclr/cross/toolchain.cma
 index 3504f94a3d..9278b153aa 100644
 --- a/src/coreclr/cross/toolchain.cmake
 +++ b/src/coreclr/cross/toolchain.cmake
+@@ -1,5 +1,5 @@
+ set(CROSS_ROOTFS $ENV{ROOTFS_DIR})
+-set(TARGET_ARCH_NAME $ENV{TARGET_BUILD_ARCH})
++set(TARGET_ARCH_NAME "armel")
+ set(CMAKE_SYSTEM_NAME Linux)
+ set(CMAKE_SYSTEM_VERSION 1)
+ 
 @@ -27,8 +27,8 @@ if(TARGET_ARCH_NAME STREQUAL "armel")
      include_directories(SYSTEM ${CROSS_ROOTFS}/usr/lib/gcc/${TIZEN_TOOLCHAIN}/include/c++/)
      include_directories(SYSTEM ${CROSS_ROOTFS}/usr/lib/gcc/${TIZEN_TOOLCHAIN}/include/c++/armv7l-tizen-linux-gnueabi)
@@ -91,7 +98,7 @@ index 3504f94a3d..9278b153aa 100644
    endif()
  elseif(TARGET_ARCH_NAME STREQUAL "arm64")
    include_directories(SYSTEM ${CROSS_ROOTFS}/usr/include)
-@@ -61,15 +61,16 @@ if(TARGET_ARCH_NAME STREQUAL "armel")
+@@ -61,15 +61,17 @@ if(TARGET_ARCH_NAME STREQUAL "armel")
      add_compile_param(CROSS_LINK_FLAGS "-L${CROSS_ROOTFS}/usr/lib")
      add_compile_param(CROSS_LINK_FLAGS "-L${CROSS_ROOTFS}/usr/lib/gcc/${TIZEN_TOOLCHAIN}")
    else()
@@ -104,6 +111,7 @@ index 3504f94a3d..9278b153aa 100644
 +    #add_compile_param(CROSS_LINK_FLAGS "-L${CROSS_ROOTFS}/lib/${TOOLCHAIN}")
 +    #add_compile_param(CROSS_LINK_FLAGS "-L${CROSS_ROOTFS}/usr/lib/gcc/${TOOLCHAIN}/4.9")
 +    add_compile_param(CROSS_LINK_FLAGS "-target ${TOOLCHAIN}")
++    add_compile_param(CROSS_LINK_FLAGS "-target ${TOOLCHAIN} -mthumb -mfpu=vfpv3 -mfloat-abi=softfp -march=armv7l")
    endif()
  elseif(TARGET_ARCH_NAME MATCHES "^(arm|arm64)$")
    add_compile_param(CROSS_LINK_FLAGS "-target ${TOOLCHAIN}")
@@ -114,7 +122,7 @@ index 3504f94a3d..9278b153aa 100644
  else() # x86 case
    add_compile_param(CROSS_LINK_FLAGS "-B${CROSS_ROOTFS}/usr/lib/gcc/i686-linux-gnu")
    add_compile_param(CROSS_LINK_FLAGS "-L${CROSS_ROOTFS}/lib/i386-linux-gnu")
-@@ -84,8 +85,9 @@ add_compile_options(--sysroot=${CROSS_ROOTFS})
+@@ -84,8 +86,9 @@ add_compile_options(--sysroot=${CROSS_ROOTFS})
  if(TARGET_ARCH_NAME MATCHES "^(arm|armel)$")
    add_compile_options(-mthumb)
    add_compile_options(-mfpu=vfpv3)
@@ -125,7 +133,7 @@ index 3504f94a3d..9278b153aa 100644
      add_compile_options(-mfloat-abi=softfp)
      if(DEFINED TIZEN_TOOLCHAIN)
        add_compile_options(-Wno-deprecated-declarations) # compile-time option
-@@ -106,13 +108,13 @@ if(TARGET_ARCH_NAME MATCHES "^(arm|armel|x86)$")
+@@ -106,13 +109,13 @@ if(TARGET_ARCH_NAME MATCHES "^(arm|armel|x86)$")
    if(TARGET_ARCH_NAME STREQUAL "x86")
      set(LLVM_CROSS_DIR "$ENV{LLVM_CROSS_HOME}")
    else() # arm/armel case
@@ -144,7 +152,7 @@ index 3504f94a3d..9278b153aa 100644
    else()
      if(TARGET_ARCH_NAME STREQUAL "x86")
        set(WITH_LLDB_LIBS "${CROSS_ROOTFS}/usr/lib/i386-linux-gnu" CACHE STRING "")
-@@ -123,8 +125,8 @@ if(TARGET_ARCH_NAME MATCHES "^(arm|armel|x86)$")
+@@ -123,8 +126,8 @@ if(TARGET_ARCH_NAME MATCHES "^(arm|armel|x86)$")
          set(WITH_LLDB_INCLUDES "${CROSS_ROOTFS}/usr/lib/llvm-3.6/include")
        endif()
      else() # arm/armel case
