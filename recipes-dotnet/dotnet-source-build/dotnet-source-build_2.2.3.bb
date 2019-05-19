@@ -50,7 +50,7 @@ do_compile() {
 	export PARALLEL_MAKEINST="${PARALLEL_MAKEINST}"
 	export VersionUserName=meta-aspnet
 	export SkipEnsurePackagesCreated=true
-	./build.sh /p:Platform=armel /p:TargetRid=linux-arm /p:Configuration=${BUILD_CONFIGURATION} /p:SkipGenerateRootFs=true
+	./build.sh /p:Platform=armel /p:TargetRid=linux-armel /p:Configuration=${BUILD_CONFIGURATION} /p:SkipGenerateRootFs=true
 }
 
 do_install() {
