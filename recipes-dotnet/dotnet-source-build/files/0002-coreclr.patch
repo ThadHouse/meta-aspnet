@@ -163,6 +163,47 @@ index 3504f94a3d..9278b153aa 100644
      endif()
    endif()
  endif()
+diff --git a/dir.props b/dir.props
+index 3a23ea5955..48cf0fe258 100644
+--- a/dir.props
++++ b/dir.props
+@@ -114,7 +114,7 @@
+     <TargetsUnix Condition="'$(TargetsFreeBSD)' == 'true' or '$(TargetsLinux)' == 'true' or '$(TargetsNetBSD)' == 'true' or '$(TargetsOSX)' == 'true'">true</TargetsUnix>
+ 
+     <!-- We are only tracking Linux Distributions for Nuget RID mapping -->
+-    <DistroRid Condition="'$(TargetsLinux)' == 'true'">$(__DistroRid)</DistroRid>
++    <DistroRid Condition="'$(TargetsLinux)' == 'true'">linux-armel</DistroRid>
+ 
+   </PropertyGroup>
+ 
+diff --git a/src/.nuget/dir.props b/src/.nuget/dir.props
+index 5bfe68c4de..17613b7ce7 100644
+--- a/src/.nuget/dir.props
++++ b/src/.nuget/dir.props
+@@ -10,7 +10,7 @@
+     <CreatePackedPackage Condition="'$(CreatePackedPackage)' == ''">true</CreatePackedPackage>
+ 
+     <!-- Distro rid is passed as runtimeos-arch-->
+-    <_parseDistroRid>$(__DistroRid)</_parseDistroRid>
++    <_parseDistroRid>linux-armel</_parseDistroRid>
+     <_parseDistroRid Condition="'$(_parseDistroRid)' == '' and '$(__BuildOS)' == 'OSX'">osx.10.12-x64</_parseDistroRid>
+     <_distroRidIndex>$(_parseDistroRid.IndexOfAny("-"))</_distroRidIndex>
+     <_archRidIndex>$([MSBuild]::Add($(_distroRidIndex), 1))</_archRidIndex>
+diff --git a/src/.nuget/dir.targets b/src/.nuget/dir.targets
+index fe7938d419..c9ce2e3ff7 100644
+--- a/src/.nuget/dir.targets
++++ b/src/.nuget/dir.targets
+@@ -1,10 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+ 
+-
+-  <Target Name="VerifyVCRedist" BeforeTargets="GetSymbolPackageFiles" Condition="'$(_runtimeOSFamily)' == 'win'">
+-    <Error Condition="'$(UniversalCRTSDKDir)' == ''" Text="Unable to find VC Redist binaries - check that UniversalCRTSDKDir environment variable is set" />
+-  </Target>
+   <!--
+     Finds symbol files and injects them into the package build.
+   -->
 diff --git a/src/coreclr/src/pal/src/arch/arm/signalhandlerhelper.cpp b/src/coreclr/src/pal/src/arch/arm/signalhandlerhelper.cpp
 index 4efecfc1c1..f4a1760cb7 100644
 --- a/src/coreclr/src/pal/src/arch/arm/signalhandlerhelper.cpp
