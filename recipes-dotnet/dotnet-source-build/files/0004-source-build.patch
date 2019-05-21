@@ -33,7 +33,19 @@ index 3d76a79..e8b1726 100644
      <BuildArguments Condition="'$(OS)' != 'Windows_NT'">$(BuildArguments) msbuildonunsupportedplatform</BuildArguments>
      <BuildArguments Condition="'$(UseSystemLibraries)' == 'true' AND '$(OS)' != 'Windows_NT'">$(BuildArguments) cmakeargs -DCLR_CMAKE_USE_SYSTEM_LIBUNWIND=TRUE</BuildArguments>
 -    <BuildArguments Condition="$(Platform.Contains('arm'))">$(BuildArguments) skipnuget cross -skiprestore cmakeargs -DFEATURE_GDBJIT=TRUE</BuildArguments>
-+    <BuildArguments Condition="$(Platform.Contains('arm'))">$(BuildArguments) cross -skiprestore cmakeargs -DFEATURE_GDBJIT=TRUE</BuildArguments>
++    <BuildArguments Condition="$(Platform.Contains('arm'))">$(BuildArguments) cross skipnuget -skiprestore cmakeargs -DFEATURE_GDBJIT=TRUE</BuildArguments>
      <!-- Portable builds only apply to Linux - Mac and Windows are both always portable.
           Additionally, Linux builds are portable by default and only have a switch to turn it off -->
      <BuildArguments Condition="'$(TargetOS)' == 'Linux' and '$(PortableBuild)' == 'false'">$(BuildArguments) -PortableBuild=false</BuildArguments>
+diff --git a/repos/corefx.proj b/repos/corefx.proj
+index b09fb31..fafd93f 100644
+--- a/repos/corefx.proj
++++ b/repos/corefx.proj
+@@ -13,6 +13,7 @@
+     <BuildArguments>$(BuildArguments) -buildArch=$(Platform)</BuildArguments>
+     <BuildArguments>$(BuildArguments) -portable=$(OverridePortableBuild) </BuildArguments>
+     <BuildArguments>$(BuildArguments) -BuildTests=false</BuildArguments>
++    <BuildArguments>$(BuildArguments) /p:CoreCLROverridePath=$(MSBuildThisFileDirectory)/../coreclr/bin/Produce/Linux.armel.Release</BuildArguments>
+     <BuildArguments>$(BuildArguments) -PackageRid=$(OverrideTargetRid)</BuildArguments>
+     <BuildArguments>$(BuildArguments) --</BuildArguments>
+     <BuildArguments>$(BuildArguments) /p:BuildAllPackages=true</BuildArguments>
