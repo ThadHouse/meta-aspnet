@@ -38,14 +38,14 @@ index 3d76a79..e8b1726 100644
           Additionally, Linux builds are portable by default and only have a switch to turn it off -->
      <BuildArguments Condition="'$(TargetOS)' == 'Linux' and '$(PortableBuild)' == 'false'">$(BuildArguments) -PortableBuild=false</BuildArguments>
 diff --git a/repos/corefx.proj b/repos/corefx.proj
-index b09fb31..fafd93f 100644
+index b09fb31..6a71e86 100644
 --- a/repos/corefx.proj
 +++ b/repos/corefx.proj
-@@ -13,6 +13,7 @@
-     <BuildArguments>$(BuildArguments) -buildArch=$(Platform)</BuildArguments>
-     <BuildArguments>$(BuildArguments) -portable=$(OverridePortableBuild) </BuildArguments>
+@@ -15,6 +15,7 @@
      <BuildArguments>$(BuildArguments) -BuildTests=false</BuildArguments>
-+    <BuildArguments>$(BuildArguments) /p:CoreCLROverridePath=$(MSBuildThisFileDirectory)/../coreclr/bin/Produce/Linux.armel.Release</BuildArguments>
      <BuildArguments>$(BuildArguments) -PackageRid=$(OverrideTargetRid)</BuildArguments>
      <BuildArguments>$(BuildArguments) --</BuildArguments>
++    <BuildArguments>$(BuildArguments) /p:CoreCLROverridePath=$(MSBuildThisFileDirectory)../coreclr/bin/Produce/Linux.armel.Release</BuildArguments>
      <BuildArguments>$(BuildArguments) /p:BuildAllPackages=true</BuildArguments>
+     <BuildArguments Condition="'$(TargetOS)' == 'Windows_NT'">$(BuildArguments) /p:ILLinkTrimAssembly=false</BuildArguments>
+     <BuildArguments>$(BuildArguments) /bl</BuildArguments>
