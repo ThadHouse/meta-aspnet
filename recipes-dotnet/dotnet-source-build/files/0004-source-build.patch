@@ -45,7 +45,7 @@ index b09fb31..6a71e86 100644
      <BuildArguments>$(BuildArguments) -BuildTests=false</BuildArguments>
      <BuildArguments>$(BuildArguments) -PackageRid=$(OverrideTargetRid)</BuildArguments>
      <BuildArguments>$(BuildArguments) --</BuildArguments>
-+    <BuildArguments>$(BuildArguments) /p:CoreCLROverridePath=$(MSBuildThisFileDirectory)../coreclr/bin/Produce/Linux.armel.Release</BuildArguments>
++    <BuildArguments>$(BuildArguments) /p:CoreCLROverridePath=/artifacts/build/tmp_nilrt_3_0_xilinx-zynq-glibc/work/cortexa9-vfpv3-nilrt-linux-gnueabi/dotnet-source-build/2.2.3-r0/git/src/coreclr/bin/Product/Linux.armel.Release</BuildArguments>
      <BuildArguments>$(BuildArguments) /p:BuildAllPackages=true</BuildArguments>
      <BuildArguments Condition="'$(TargetOS)' == 'Windows_NT'">$(BuildArguments) /p:ILLinkTrimAssembly=false</BuildArguments>
      <BuildArguments>$(BuildArguments) /bl</BuildArguments>
